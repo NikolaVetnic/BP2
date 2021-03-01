@@ -19,16 +19,16 @@ public class Main {
 			
 			conn = DriverManager.getConnection("jdbc:oracle:thin:@nastava.is.pmf.uns.ac.rs:1521:xe", "baze2", "baze2");
 			stmt = conn.createStatement();
+			
 			rSet = stmt.executeQuery(""
-					+ "SELECT predmet_id, naziv "
-					+ "FROM predmet p, nastavnik n, predaje pr "
-					+ "WHERE pr.Nastavnik_nastavnik_id = n.nastavnik_id AND pr.Predmet_predmet_id = p.predmet_id "
+					+ "SELECT p.predmet_id, p.naziv "
+					+ "FROM nastavnik n, predmet p, predaje pr "
+					+ "WHERE pr.nastavnik_id = n.nastavnik_id AND pr.predmet_id = p.predmet_id "
 					+ "AND n.ime = 'Petar' AND n.prezime = 'Peric'");
 			
-			System.out.println("Predmeti koje predaje Petar Peric: ");
-			while(rSet.next()) {
-				System.out.println(rSet.getInt(1) + " " + rSet.getString(2));
-			}
+							   System.out.printf("%5s %30s \n", "ID", "NAZIV_PREDMETA");
+			while(rSet.next()) System.out.printf("%5d %30s \n", rSet.getInt(1), rSet.getString(2));
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
