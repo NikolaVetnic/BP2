@@ -1,4 +1,4 @@
-package prakticne_vezbe.pv01_z03;
+package prakticne_vezbe.pv01_z01;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -21,16 +21,14 @@ public class Main {
 			stmt = conn.createStatement();
 			
 			rSet = stmt.executeQuery(""
-					+ "SELECT p.predmet_id, p.naziv "
-					+ "FROM nastavnik n, predmet p, predaje pr "
-					+ "WHERE pr.nastavnik_id = n.nastavnik_id AND pr.predmet_id = p.predmet_id "
-					+ "AND n.ime = 'Petar' AND n.prezime = 'Peric'");
-			
-							   System.out.printf("%5s %30s \n", "ID", "NAZIV_PREDMETA");
-			while(rSet.next()) System.out.printf("%5d %30s \n", rSet.getInt(1), rSet.getString(2));
+					+ "SELECT *"
+					+ "FROM nastavnik");
+						
+								System.out.printf("%20s %20s \n", "Ime", "Prezime");
+			while (rSet.next()) System.out.printf("%20s %20s \n", rSet.getString(2), rSet.getString(3));
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		} finally {
 			try {
 				rSet.close();
