@@ -1,4 +1,4 @@
-package prakticne_vezbe.pv04_z01;
+package prakticne_vezbe.pv04_z01_p01;
 
 public class MainMySQL {
 

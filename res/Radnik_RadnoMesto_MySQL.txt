@@ -1,0 +1,19 @@
+create table Radnik (
+	mbr int not null auto_increment,
+	ime varchar(30) not null,
+	prz varchar(30) not null,
+	datr varchar(30) not null,
+	ozrm int not null,
+	primary key (mbr)
+);
+
+create table RadnoMesto (
+	ozrm int not null auto_increment,
+	naziv varchar(30) not null,
+	primary key (ozrm)
+);
+
+alter table Radnik add constraint FK_radi_na foreign key (ozrm) references RadnoMesto (ozrm) on delete restrict on update restrict;
+
+insert into RadnoMesto values (1, 'programer');
+insert into Radnik values (1, 'Marko', 'Maric', '21-1-2000', 1);

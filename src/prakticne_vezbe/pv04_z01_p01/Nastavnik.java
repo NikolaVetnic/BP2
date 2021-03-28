@@ -1,4 +1,4 @@
-package prakticne_vezbe.pv04_z01;
+package prakticne_vezbe.pv04_z01_p01;
 
 public class Nastavnik {
 
@@ -21,7 +21,7 @@ public class Nastavnik {
 	public int idNastavnika() 	{ return idNastavnika; 	}
 	public String ime() 		{ return ime; 			}
 	public String prezime() 	{ return prezime; 		}	
-	public String zvanje() 			{ return zvanje; 		}
+	public String zvanje() 		{ return zvanje; 		}
 	
 
 	public void setIdNastavnika(int idNastavnika) 	{ this.idNastavnika = idNastavnika; }
@@ -32,7 +32,6 @@ public class Nastavnik {
 
 	@Override
 	public String toString() {
-		return "Nastavnik [idNastavnika=" + idNastavnika + ", ime=" + ime + ", prezime=" + prezime + ", zvanje="
-				+ zvanje + "]";
+		return String.format("%5d %20s %20s %10s %n", idNastavnika(), ime(), prezime(), zvanje());
 	}
 }

@@ -1,0 +1,63 @@
+drop table if exists Nastavnik;
+
+drop table if exists Predmet;
+
+drop table if exists predaje;
+
+/*==============================================================*/
+/* Table: Nastavnik                                             */
+/*==============================================================*/
+create table Nastavnik
+(
+   nastavnik_Id          int not null auto_increment,
+   ime                  varchar(30) not null,
+   prezime              varchar(30) not null,
+   zvanje               varchar(30) not null,
+   primary key (nastavnik_Id)
+);
+
+/*==============================================================*/
+/* Table: Predmet                                               */
+/*==============================================================*/
+create table Predmet
+(
+   predmet_Id            int not null auto_increment,
+   naziv                varchar(30) not null,
+   primary key (predmet_Id)
+);
+
+/*==============================================================*/
+/* Table: predaje                                               */
+/*==============================================================*/
+create table predaje
+(
+   nastavnik_Id          int not null,
+   predmet_Id            int not null,
+   primary key (nastavnik_Id, predmet_Id)
+);
+
+alter table predaje add constraint FK_predaje foreign key (nastavnik_Id)
+      references Nastavnik (nastavnik_Id) on delete restrict on update restrict;
+
+alter table predaje add constraint FK_predaje2 foreign key (predmet_Id)
+      references Predmet (predmet_Id) on delete restrict on update restrict;
+
+
+insert into Nastavnik values (1, 'Petar', 'Peric', 'docent');
+insert into Nastavnik values (2, 'Sava', 'Savic', 'vanredni profesor');
+insert into Nastavnik values (3, 'Ivan', 'Ivic', 'asistent');
+insert into Nastavnik values (4, 'Ana', 'Antic', 'redovni profesor');
+insert into Nastavnik values (5, 'Maja', 'Majic', 'docent');
+
+insert into Predmet values (1, 'Baze podataka 1');
+insert into Predmet values (2, 'Baze podataka 2');
+insert into Predmet values (3, 'Diskretne strukture 1');
+insert into Predmet values (4, 'Uvod u programiranje');
+insert into Predmet values (5, 'Analiza 1');
+
+insert into Predaje values (1, 1);
+insert into Predaje values (1, 2);
+insert into Predaje Values (2, 3);
+insert into Predaje values (3, 2);
+insert into Predaje values (4, 4);
+insert into Predaje values (5, 5);

@@ -1,4 +1,4 @@
-package prakticne_vezbe.pv04_z01;
+package prakticne_vezbe.pv04_z01_p02;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,11 +14,10 @@ public class DBConnection {
 	
 	static {
 		try {
-
 			String host 	= MySQL_Access.HOST;
 			String database = MySQL_Access.DATABASE;
-			String user 	= MySQL_Access.USER;
-			String passwd 	= MySQL_Access.PASS;
+			String user		= MySQL_Access.USER;
+			String passwd	= MySQL_Access.PASS;
 			
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			
@@ -29,8 +28,8 @@ public class DBConnection {
 			e.printStackTrace();
 		}
 	}
-
-
+	
+	
 	public static Connection conn() { return conn; }
 	
 	
