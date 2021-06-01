@@ -1,0 +1,86 @@
+KREIRANJE JPA PROJEKTA
+
+= Dijalog 01
+1)	Project name: sta god
+2)	JPA version: 2.1
+
+= Dijalog 02 (sa /src folderom)
+3)	...Next
+
+= Dijalog 03
+4)	Kreirati custom biblioteku sa drajverima za Hibernate
+5)	Add Connection (Oracle, name: Oracle_CONN)
+6) 	New Driver Definition, Oracle Thin Driver 11 - bice greska "Unable to locate JAR/zip... ojdbc14.jar"
+7)	Tab JAR List, klik na taj koji ne moze da nadje, Clear All - sada dodajemo nas.
+8)	Add JAR/Zip, nadjemo ojdbc7.jar, OK.
+9)	Unos parametara:
+	DB Instance: xe
+	Host: nastava.is.pmf.uns.ac.rs
+	Port Number: 1521
+	User: baze2
+	Pass: baze2
+	Save Password
+10)	Ponovo u Dijalogu 03, Add Driver Library to Build Path, Finish.
+
+Podesiti verziju Jave...
+11)	RC na projekat, Project Properties, s leve strane Project Facets, promeniti verziju Jave sa 16 na 11.
+
+U okviru projekta...
+12)	JPA Content/persistence.xml, tab Connection, Transaction Type - Resource Local.
+13)	Populate from Connection, odaberemo Oracle_CONN (jedina dostupna), OK.
+14)	Sacuvati persistence.xml.
+
+Kreiranje klasa po principu MODEL FIRST
+15)	RC na projekat, JPA Tools, Generate Entities from Tables, STUDENT, Next.
+16)	Table Associations - imamo jednu tabelu pa nema veza, Next.
+17)	Key Generator: sequence (specificno za Oracle), 
+	Sequence Name: $table (??? da li ovo uvek upisujemo ???),
+	Entity Access: Field (default),
+	Associations Fetch: Default,
+	Collections Properties Type: java.util.List (default) -> kada budemo imali kolekcije dobijacemo liste,
+	Source Folder: Student/src
+	Package: model.
+	Next.
+18)	Staviti tip BROJINDEKSA na int. Voditi racuna pri kreiranju tabela sa Integer vrednostima on stavi Long po defaultu.
+19)	Finish.
+
+StudentCrud.java
+20)	prvo kreiramo EntityManager iz javax.persistence paketa.
+21)	kopiramo PersistenceUtil.java klasu i dodajemo u entityManagerFactory "NAZIV_PROJEKTA" u zagradama (npr. "BP2_Student").
+22)	dovucemo EntityManager u kreiranu promenljivu iz novonastale klase sa linijom:
+	EntityManager em = PersistenceUtil.getEntityManager();
+23)	Kreiramo EntityTransaction i inicijalizujemo na null.
+24)	Kreiramo try-catch-finally blok u StudentCrud klasi.
+25)	Prvo zapocinjemo transakciju:
+	et = em.getTransaction();
+	et.begin();
+	i odmah na kraj stavimo perzistenciju objekta:
+	em.persist(s);
+	em.flush();			
+	et.commit();
+26)	kompletiramo catch i finally grane...
+
+** 	Imao sam problem, u @SequenceGenerator anotacije je falilo: sequenceName="STUDENT_PK"
+
+Kreiranje MySQL projekta...
+27)	Sve isto do koraka 5) Add Connection.
+28)	Potreban nam je MySQL Driver 5.1.
+29) 	U tabu JAR List obrisemo trenutni i dodamo onaj koji mi koristimo a to je 8.0.20, OK do kraja.
+30)	Properties
+	Database:	database
+	URL:		jdbc:mysql://localhost:3306/student
+	User name:	root
+	Password	r00t
+
+PROBLEMI I RESENJA:
+	Brisanje kreirane konekcije: https://stackoverflow.com/questions/25029368/how-to-delete-remove-unused-eclipse-jpa-connection-configuration
+	Ukratko: Obrisati konekciju preko Data Source Explorera (dole levo).
+
+	Brisanje dodatog JDBC drajvera: https://stackoverflow.com/questions/23624852/eclipse-giving-error-when-adding-mysql-jdbc-driver
+	Ukratko: Preferences / Data Management / Connectivity / Driver Definitions - tu obrisati.
+
+	Ping failed zbog vremenske zone: https://stackoverflow.com/questions/26515700/mysql-jdbc-driver-5-1-33-time-zone-issue
+	Ukratko: dodati ovo posle "localhost/<ime_baze>" : ?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+
+31) 	Kod MySQL baze generator kljuca je "identity" i nista drugo ne diramo (??? zasto mi je sve kolone generisao dva puta ???)
+	
